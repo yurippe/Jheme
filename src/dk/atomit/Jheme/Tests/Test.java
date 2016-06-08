@@ -14,6 +14,7 @@ public class Test {
     public static void main(String[] args) {
 
         LambdaTests.test();
+        ListTests.test();
 
         System.out.println("PASSED ALL TESTS");
 
