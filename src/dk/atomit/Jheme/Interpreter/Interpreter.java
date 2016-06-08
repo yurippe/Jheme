@@ -35,7 +35,7 @@ public class Interpreter {
         EvaluationResult finalResult = null;
         for(SchemeObject exp : parser.parse(expressions)){
             result = eval(exp, environment);
-            if(!(result.getSchemeObject() instanceof SchemeNoreturn)){
+            if(finalResult == null || !(result.getSchemeObject() instanceof SchemeNoreturn)){
                 finalResult = result;
             }
         }
