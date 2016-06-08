@@ -1,6 +1,7 @@
 package dk.atomit.Jheme.StdLib;
 
 import dk.atomit.Jheme.Environment.Environment;
+import dk.atomit.Jheme.Interpreter.EvaluationResult;
 import dk.atomit.Jheme.Interpreter.Interpreter;
 import dk.atomit.Jheme.SchemeTypes.*;
 
@@ -10,15 +11,12 @@ import dk.atomit.Jheme.SchemeTypes.*;
 public class Define extends SchemeProcedure {
 
     @Override
-    public SchemeObject call(SchemeObject[] args, Interpreter i, Environment e) {
+    public EvaluationResult call(SchemeObject[] args, Interpreter i, Environment e) {
         SchemeSymbol name = (SchemeSymbol) args[0];
-        SchemeObject value = i.eval(args[1], e);
+        SchemeObject value = i.eval(args[1], e).getSchemeObject();
         e.put(name.getValue(), value);
-        return new SchemeNoreturn();
+        return new EvaluationResult(e);
     }
 
-    @Override
-    public SchemeObject execute(SchemeObject[] args, Interpreter i, Environment e) {
-        return null;
-    }
+
 }

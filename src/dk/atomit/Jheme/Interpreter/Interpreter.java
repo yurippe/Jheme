@@ -19,26 +19,27 @@ public class Interpreter {
     private Parser parser = new Parser();
     private Environment environment = Environment.getStdEnvironment();
 
-    public SchemeObject eval(SchemeObject o, Environment e){
+    public EvaluationResult eval(SchemeObject o, Environment e){
         if(o instanceof SchemeSymbol) {
-            return e.find(((SchemeSymbol) o).getValue());
+            return new EvaluationResult(e.find(((SchemeSymbol) o).getValue()), e);
 
         }else if(o instanceof SchemeExpression){
             return ((SchemeExpression) o).evaluate(this, e);
         } else{
-            return o;
+            return new EvaluationResult(o, e);
         }
     }
 
-    public SchemeObject eval(String expressions){
-        SchemeObject result = null;
+    public EvaluationResult eval(String expressions){
+        EvaluationResult result = null;
+        EvaluationResult finalResult = null;
         for(SchemeObject exp : parser.parse(expressions)){
             result = eval(exp, environment);
-            if(!(result instanceof SchemeNoreturn)){
-                System.out.println(result.getStringValue());
+            if(!(result.getSchemeObject() instanceof SchemeNoreturn)){
+                finalResult = result;
             }
         }
-        return result;
+        return finalResult;
     }
 
     public void repl(){
@@ -47,10 +48,33 @@ public class Interpreter {
         while(true){
             try {
                 String line = buffer.readLine();
-                eval(line);
+                EvaluationResult r = eval(line);
+                if(!(r.getSchemeObject() instanceof SchemeNoreturn)) {
+                    System.out.println(r.getSchemeObject().getStringValue());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        }
+    }
+
+
+
+    public void assertArgCountEqual(SchemeObject assertedin, SchemeObject[] args, int assertcount){
+        if(!(args.length == assertcount)){
+            throw new RuntimeException("Illegal argument count");
+        }
+    }
+
+    public void assertArgCountMin(SchemeObject assertedin, SchemeObject[] args, int assertcount){
+        if(!(args.length >= assertcount)){
+            throw new RuntimeException("Illegal argument count");
+        }
+    }
+
+    public void assertArgIsType(SchemeObject assertedin, SchemeObject arg, Class type){
+        if(!(arg.getClass() == type)){
+            throw new RuntimeException("Expected argument to be of type: " + type.getClass().getName());
         }
     }
 

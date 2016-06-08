@@ -1,6 +1,7 @@
 package dk.atomit.Jheme.StdLib;
 
 import dk.atomit.Jheme.Environment.Environment;
+import dk.atomit.Jheme.Interpreter.EvaluationResult;
 import dk.atomit.Jheme.Interpreter.Interpreter;
 import dk.atomit.Jheme.SchemeTypes.*;
 
@@ -13,7 +14,7 @@ public class Lambda extends SchemeProcedure{
 
 
     @Override
-    public SchemeObject call(SchemeObject[] args, Interpreter i, Environment e) {
+    public EvaluationResult call(SchemeObject[] args, Interpreter i, Environment e) {
 
         if(args[0] instanceof SchemeExpression){
             //type 1 (args is a list of specific args):
@@ -26,10 +27,10 @@ public class Lambda extends SchemeProcedure{
                 }
             }
 
-            return new SchemeProcedure() {
+            return new EvaluationResult(new SchemeProcedure() {
 
                 @Override
-                public SchemeObject execute(SchemeObject[] args, Interpreter i, Environment e) {
+                public EvaluationResult execute(SchemeObject[] args, Interpreter i, Environment e) {
                     Environment nenv = new Environment(e);
 
                     List<SchemeObject> anames = lambda_args.list();
@@ -40,16 +41,12 @@ public class Lambda extends SchemeProcedure{
 
                     for(int ai=0; ai < anames.size(); ai++){
                         String key = ((SchemeSymbol) anames.get(ai)).getValue();
-                        System.out.println(key);
-                        System.out.println("==>");
-                        System.out.println( args[ai]);
                         nenv.put(key, args[ai]);
                     }
 
-                    System.out.println(nenv);
                     return i.eval(lambda_exp, nenv);
                 }
-            };
+            }, e);
 
 
 
@@ -61,15 +58,15 @@ public class Lambda extends SchemeProcedure{
             final SchemeSymbol lambda_args = (SchemeSymbol) args[0];
             final SchemeExpression lambda_exp = (SchemeExpression) args[1];
 
-            return new SchemeProcedure() {
+            return new EvaluationResult(new SchemeProcedure() {
 
                 @Override
-                public SchemeObject execute(SchemeObject[] args, Interpreter i, Environment e) {
+                public EvaluationResult execute(SchemeObject[] args, Interpreter i, Environment e) {
                     Environment nenv = new Environment(e);
                     nenv.put(lambda_args.getValue(), SchemePair.fromArray(args));
                     return i.eval(lambda_exp, nenv);
                 }
-            };
+            }, e);
 
 
 
@@ -80,11 +77,6 @@ public class Lambda extends SchemeProcedure{
             throw new RuntimeException("Expected list of arguments or symbol");
         }
 
-    }
-
-    @Override
-    public SchemeObject execute(SchemeObject[] args, Interpreter i, Environment e) {
-        return null;
     }
 
 

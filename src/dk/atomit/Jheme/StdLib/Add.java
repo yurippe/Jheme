@@ -1,6 +1,7 @@
 package dk.atomit.Jheme.StdLib;
 
 import dk.atomit.Jheme.Environment.Environment;
+import dk.atomit.Jheme.Interpreter.EvaluationResult;
 import dk.atomit.Jheme.Interpreter.Interpreter;
 import dk.atomit.Jheme.SchemeTypes.*;
 
@@ -10,7 +11,7 @@ import dk.atomit.Jheme.SchemeTypes.*;
 public class Add extends SchemeProcedure{
 
     @Override
-    public SchemeObject execute(SchemeObject[] args, Interpreter interpreter, Environment environment) {
+    public EvaluationResult execute(SchemeObject[] args, Interpreter interpreter, Environment environment) {
         boolean allInts = true;
         double sum = 0;
 
@@ -24,7 +25,7 @@ public class Add extends SchemeProcedure{
                 throw new RuntimeException("Add can only operate on numbers, got: " + arg);
             }
         }
-        return (allInts) ? new SchemeInteger((int) sum) : new SchemeFloat(sum);
+        return new EvaluationResult((allInts) ? new SchemeInteger((int) sum) : new SchemeFloat(sum), environment);
     }
 
 

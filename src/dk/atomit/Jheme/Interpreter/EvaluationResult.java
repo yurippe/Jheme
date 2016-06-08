@@ -1,6 +1,7 @@
 package dk.atomit.Jheme.Interpreter;
 
 import dk.atomit.Jheme.Environment.Environment;
+import dk.atomit.Jheme.SchemeTypes.SchemeNoreturn;
 import dk.atomit.Jheme.SchemeTypes.SchemeObject;
 
 /**
@@ -13,6 +14,11 @@ public class EvaluationResult {
 
     public EvaluationResult(SchemeObject obj, Environment env){
         this.schemeObject = obj;
+        this.environment = env;
+    }
+
+    public EvaluationResult(Environment env){
+        this.schemeObject = new SchemeNoreturn();
         this.environment = env;
     }
 

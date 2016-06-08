@@ -66,6 +66,10 @@ public class Environment {
         e.put("+", new Add());
         e.put("-", new Sub());
         e.put("*", new Mul());
+        e.put("list", new dk.atomit.Jheme.StdLib.List());
+        e.put("car", new Car());
+        e.put("cdr", new Cdr());
+        e.put("cons", new Cons());
         e.put("integer?", new IsInteger());
         return e;
 

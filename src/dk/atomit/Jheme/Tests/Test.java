@@ -12,17 +12,13 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        Parser p = new Parser();
 
-        //p.prettyprintParsed("hello werld ;comment\n'(list)");
-        //p.printParsed();
-        List<SchemeObject> x = p.parse("(define x (lambda (b) (+ 1 b))) (+ x 2)");
+        LambdaTests.test();
 
-        System.out.println(x);
-        System.out.println(x.get(0).getStringValue());
-        System.out.println(x.get(1).getStringValue());
+        System.out.println("PASSED ALL TESTS");
 
         Interpreter i = new Interpreter();
+        System.out.println("Jheme v0.01 <by Kristian Gausel>\n");
         i.repl();
     }
 

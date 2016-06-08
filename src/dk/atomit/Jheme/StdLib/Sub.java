@@ -1,6 +1,7 @@
 package dk.atomit.Jheme.StdLib;
 
 import dk.atomit.Jheme.Environment.Environment;
+import dk.atomit.Jheme.Interpreter.EvaluationResult;
 import dk.atomit.Jheme.Interpreter.Interpreter;
 import dk.atomit.Jheme.SchemeTypes.*;
 
@@ -10,7 +11,7 @@ import dk.atomit.Jheme.SchemeTypes.*;
 public class Sub extends SchemeProcedure{
 
     @Override
-    public SchemeObject execute(SchemeObject[] args, Interpreter interpreter, Environment e) {
+    public EvaluationResult execute(SchemeObject[] args, Interpreter interpreter, Environment e) {
         boolean allInts = (args[0] instanceof SchemeInteger);
         double sum = ((SchemeNumber) args[0]).getNumericValue();
 
@@ -25,6 +26,6 @@ public class Sub extends SchemeProcedure{
                 throw new RuntimeException("Sub can only operate on numbers, got: " + arg);
             }
         }
-        return (allInts) ? new SchemeInteger((int) sum) : new SchemeFloat(sum);
+        return new EvaluationResult((allInts) ? new SchemeInteger((int) sum) : new SchemeFloat(sum), e);
     }
 }

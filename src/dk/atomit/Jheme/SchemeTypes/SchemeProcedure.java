@@ -1,6 +1,7 @@
 package dk.atomit.Jheme.SchemeTypes;
 
 import dk.atomit.Jheme.Environment.Environment;
+import dk.atomit.Jheme.Interpreter.EvaluationResult;
 import dk.atomit.Jheme.Interpreter.Interpreter;
 
 /**
@@ -14,16 +15,18 @@ public abstract class SchemeProcedure implements SchemeObject {
 
 
     //Unevaluated arguments
-    public SchemeObject call(SchemeObject[] args, Interpreter i, Environment e){
+    public EvaluationResult call(SchemeObject[] args, Interpreter i, Environment e){
         SchemeObject[] evargs = new SchemeObject[args.length];
         for(int index=0; index < args.length; index++){
-            evargs[index] = i.eval(args[index], e);
+            evargs[index] = i.eval(args[index], e).getSchemeObject();
         }
 
         return execute(evargs, i, e);
     }
 
     //Should be called from call
-    public abstract SchemeObject execute(SchemeObject[] args, Interpreter i, Environment e);
+    public EvaluationResult execute(SchemeObject[] args, Interpreter i, Environment e){
+        return new EvaluationResult(e);
+    }
 
 }
