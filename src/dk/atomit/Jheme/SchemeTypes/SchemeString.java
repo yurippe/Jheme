@@ -5,11 +5,17 @@ package dk.atomit.Jheme.SchemeTypes;
  */
 public class SchemeString implements SchemeObject, HasValue<String> {
 
+    private String value;
+
+    public SchemeString(String s){
+        value = s;
+    }
+
     public String getValue() {
-        return null;
+        return value;
     }
 
     public String getStringValue(){
-        return "<STRING>";
+        return "\"" + value + "\"";
     }
 }

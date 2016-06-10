@@ -55,7 +55,11 @@ public class Parser {
         } else if(s.matches("-?\\d+(\\.\\d+)")){
             //is float / double:
             return new SchemeFloat(s);
-        } else {
+        } else if(s.matches("\\\".*\\\"")){
+           //is a string:
+            return new SchemeString(s.substring(1,s.length()-1));
+        }
+        else {
             return new SchemeSymbol(s);
         }
     }
@@ -68,7 +72,13 @@ public class Parser {
         return d;
     }
 
-    private String[] tokenize(String in){
+    public String[] tokenize(String in){
+        Tokenizer t = new Tokenizer();
+        return t.tokenize(in);
+    }
+
+    @Deprecated
+    public String[] deprecated_tokenize(String in){
 
         in = in.replace('\r', ' ').replace('\n', ' ').replace('\t', ' ');
         in = in.replace((CharSequence) "(", (CharSequence) " ( ");

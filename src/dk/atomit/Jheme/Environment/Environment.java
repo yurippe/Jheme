@@ -71,6 +71,7 @@ public class Environment {
         e.put("cdr", new Cdr());
         e.put("cons", new Cons());
         e.put("integer?", new IsInteger());
+        e.put("printf", new PrintF());
         return e;
 
     }
