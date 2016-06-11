@@ -25,6 +25,19 @@ public class LambdaTests {
         interpreter.eval("(define x (lambda (x) (+ 10 x)))");
         SchemeInteger a6 = (SchemeInteger) interpreter.eval("(let ([y x] [c (lambda (y) (+ y 100))]) (y (c 1)))").getSchemeObject();
         assert a6.getValue() == 111;
+
+        SchemeInteger a7 = (SchemeInteger) interpreter.eval("(letrec ([x 10] [y x]) y)").getSchemeObject();
+        assert a7.getValue() == 10;
+
+        try{
+            interpreter.eval("(letrec ([y x] [x 10]) y)");
+            assert false;
+        } catch (RuntimeException e){
+            assert true;
+        }
+
+        SchemeInteger a8 = (SchemeInteger) interpreter.eval("(let* ([x 10] [y x] [x 12]) (+ x y))").getSchemeObject();
+        assert a8.getValue() == 22;
     }
 
 }

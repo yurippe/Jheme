@@ -1,10 +1,7 @@
 package dk.atomit.Jheme.Interpreter;
 
 import dk.atomit.Jheme.Environment.Environment;
-import dk.atomit.Jheme.SchemeTypes.SchemeExpression;
-import dk.atomit.Jheme.SchemeTypes.SchemeNoreturn;
-import dk.atomit.Jheme.SchemeTypes.SchemeObject;
-import dk.atomit.Jheme.SchemeTypes.SchemeSymbol;
+import dk.atomit.Jheme.SchemeTypes.*;
 import dk.atomit.Jheme.Parser.Parser;
 
 import java.io.BufferedReader;
@@ -39,6 +36,9 @@ public class Interpreter {
             if(finalResult == null || !(result.getSchemeObject() instanceof SchemeNoreturn)){
                 finalResult = result;
             }
+        }
+        if(finalResult != null && finalResult.getSchemeObject() instanceof SchemeUninitialized){
+            throw new RuntimeException("Attempt to reference undefined variable");
         }
         return finalResult;
     }

@@ -5,18 +5,17 @@ import dk.atomit.Jheme.Interpreter.EvaluationResult;
 import dk.atomit.Jheme.Interpreter.Interpreter;
 import dk.atomit.Jheme.SchemeTypes.*;
 
-
-/**
+/*
  * Created by Kristian on 6/11/2016.
  */
-public class Let extends SchemeProcedure {
+public class LetRec extends SchemeProcedure {
 
 
     @Override
     public EvaluationResult call(SchemeObject[] args, Interpreter i, Environment e) {
         i.assertIsType(this, args[0], SchemeExpression.class);
         i.assertArgCountEqual(this, args, 2);
-        //(let ([x 1] [y 2]) exp)
+        //(letrec ([x 1] [y 2]) exp)
 
         Environment nenv = new Environment(e);
 
@@ -26,14 +25,21 @@ public class Let extends SchemeProcedure {
             i.assertListSize(this, ar.list(), 2);
 
             SchemeSymbol aname = (SchemeSymbol) ar.list().get(0);
-            SchemeObject aval = i.eval(ar.list().get(1),e).getSchemeObject();
 
-            nenv.put(aname.getValue(), aval);
+
+            nenv.put(aname.getValue(), new SchemeUninitialized());
 
         }
 
+        for(SchemeObject a : ((SchemeExpression) args[0]).list()) {
+            SchemeExpression ar = (SchemeExpression) a;
+            SchemeSymbol aname = (SchemeSymbol) ar.list().get(0);
+            SchemeObject aval = i.eval(ar.list().get(1), nenv).getSchemeObject();
+            nenv.put(aname.getValue(), aval);
+        }
         return i.eval(args[1], nenv);
 
     }
 
 }
+

@@ -64,6 +64,8 @@ public class Environment {
         e.put("define", new Define());
         e.put("lambda", new Lambda());
         e.put("let", new Let());
+        e.put("let*", new LetStar());
+        e.put("letrec", new LetRec());
         e.put("+", new Add());
         e.put("-", new Sub());
         e.put("*", new Mul());

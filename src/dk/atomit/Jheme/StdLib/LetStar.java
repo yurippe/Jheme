@@ -9,7 +9,7 @@ import dk.atomit.Jheme.SchemeTypes.*;
 /**
  * Created by Kristian on 6/11/2016.
  */
-public class Let extends SchemeProcedure {
+public class LetStar extends SchemeProcedure {
 
 
     @Override
@@ -18,6 +18,7 @@ public class Let extends SchemeProcedure {
         i.assertArgCountEqual(this, args, 2);
         //(let ([x 1] [y 2]) exp)
 
+        Environment penv = e;
         Environment nenv = new Environment(e);
 
         for(SchemeObject a : ((SchemeExpression) args[0]).list()){
@@ -26,13 +27,16 @@ public class Let extends SchemeProcedure {
             i.assertListSize(this, ar.list(), 2);
 
             SchemeSymbol aname = (SchemeSymbol) ar.list().get(0);
-            SchemeObject aval = i.eval(ar.list().get(1),e).getSchemeObject();
+            SchemeObject aval = i.eval(ar.list().get(1),penv).getSchemeObject();
 
             nenv.put(aname.getValue(), aval);
 
+            penv = nenv;
+            nenv = new Environment(penv);
+
         }
 
-        return i.eval(args[1], nenv);
+        return i.eval(args[1], penv);
 
     }
 
