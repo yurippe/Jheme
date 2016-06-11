@@ -17,7 +17,21 @@ public class Interpreter {
     private Parser parser = new Parser();
     private Environment environment = Environment.getStdEnvironment();
 
+    private boolean nextLiteral = false;
+
     public EvaluationResult eval(SchemeObject o, Environment e){
+        /* Shitty implementation of ', current solution is to fix it in the parser by replacing it with (quote <expr>)
+        if(nextLiteral){
+            nextLiteral = false;
+
+            if(o instanceof SchemeExpression){
+                int size = ((SchemeExpression)o).list().size();
+                o = SchemePair.fromArray(((SchemeExpression)o).list().toArray(new SchemeObject[size]));
+            }
+
+            return new EvaluationResult(o, e);}
+        if(o instanceof SchemeLiteralMarker){nextLiteral = true; return new EvaluationResult(e);}
+        */
         if(o instanceof SchemeSymbol) {
             return new EvaluationResult(e.find(((SchemeSymbol) o).getValue()), e);
 

@@ -61,11 +61,21 @@ public class Environment {
         Environment e = new Environment();
         e.put("#t", new SchemeBoolean(true));
         e.put("#f", new SchemeBoolean(false));
+        e.put("if", new If());
+        e.put("and", new And());
+        e.put("or", new Or());
         e.put("define", new Define());
         e.put("lambda", new Lambda());
         e.put("let", new Let());
         e.put("let*", new LetStar());
         e.put("letrec", new LetRec());
+        e.put("quote", new Quote());
+        e.put(">=", new Geq());
+        e.put("<=", new Leq());
+        e.put(">", new Gt());
+        e.put("<", new Lt());
+        e.put("=", new EqualSymbol());
+        e.put("'", new Quote());
         e.put("+", new Add());
         e.put("-", new Sub());
         e.put("*", new Mul());
@@ -74,6 +84,7 @@ public class Environment {
         e.put("cdr", new Cdr());
         e.put("cons", new Cons());
         e.put("integer?", new IsInteger());
+        e.put("pair?", new IsPair());
         e.put("printf", new PrintF());
         return e;
 

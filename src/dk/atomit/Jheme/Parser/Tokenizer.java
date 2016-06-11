@@ -2,6 +2,8 @@ package dk.atomit.Jheme.Parser;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by Kristian on 6/10/2016.
@@ -12,12 +14,41 @@ public class Tokenizer {
 
     private State state;
 
+    private static final Pattern QUOTES_PATTERN_1 = Pattern.compile("('\\s*\\([^\\)]*\\))");
+    private static final Pattern QUOTES_PATTERN_2 = Pattern.compile("('\\s*[^\\(\\)]\\s)");
+    private static final Pattern WHITESPACE = Pattern.compile("\\s+");
 
-    public Tokenizer(){
-        state = State.INITIAL;
+    public Tokenizer(){state = State.INITIAL;}
+
+    private String fix(String in){
+
+        Matcher m = WHITESPACE.matcher(in);
+        m.replaceAll(" ");
+
+        m = QUOTES_PATTERN_1.matcher(in);
+        while (m.find()){
+            String s = m.group();
+            in = m.replaceFirst("(quote " + s.substring(1).trim() + ")");
+            m.reset(in);
+        }
+
+        m = QUOTES_PATTERN_2.matcher(in);
+        while (m.find()){
+            String s = m.group();
+            in = m.replaceFirst("(quote " + s.substring(1).trim() + ")");
+            m.reset(in);
+        }
+
+        /*
+        System.out.println("TOKENS");
+        System.out.println(in);
+        */
+        return in;
     }
 
     public String[] tokenize(String string_in){
+
+        string_in = fix(string_in);
 
         char[] input = string_in.toCharArray();
 
@@ -35,6 +66,9 @@ public class Tokenizer {
                     output.add(")");
                 } else if (c == '(' || c == '[') {
                     output.add("(");
+                } else if (c == '\''){
+                    output.add("'");
+                    state = State.INITIAL;
                 }
 
                 else if(!(c == ' ')){
@@ -61,6 +95,10 @@ public class Tokenizer {
                 } else if (c == '(' || c == '[') {
                     output.add(currentToken.toString());
                     output.add("(");
+                    state = State.INITIAL;
+                } else if (c == '\''){
+                    output.add(currentToken.toString());
+                    output.add("'");
                     state = State.INITIAL;
                 }
 

@@ -137,13 +137,15 @@ public class Parser {
     }
 
     public void printParsed(String input){
+        System.out.println(parse(input));
+        /*
         for(SchemeObject o : parse(input)){
             if(o instanceof SchemeExpression){
                 printExpression((SchemeExpression) o, false);
             } else {
                 System.out.println(o);
             }
-        }
+        }*/
     }
 
     private void printExpression(SchemeExpression e, boolean pretty){
