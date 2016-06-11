@@ -10,6 +10,7 @@ import dk.atomit.Jheme.Parser.Parser;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.List;
 
 /**
  * Created by Kristian on 6/7/2016.
@@ -72,9 +73,15 @@ public class Interpreter {
         }
     }
 
-    public void assertArgIsType(SchemeObject assertedin, SchemeObject arg, Class type){
+    public void assertIsType(SchemeObject assertedin, SchemeObject arg, Class type){
         if(!(arg.getClass() == type)){
             throw new RuntimeException("Expected argument to be of type: " + type.getClass().getName());
+        }
+    }
+
+    public void assertListSize(SchemeObject assertedin, List<?> list, int assertcount){
+        if(!(list.size() == assertcount)){
+            throw new RuntimeException("Expected length to be " + assertcount);
         }
     }
 

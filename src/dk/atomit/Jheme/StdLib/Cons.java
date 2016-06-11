@@ -13,7 +13,7 @@ import dk.atomit.Jheme.SchemeTypes.SchemeProcedure;
 public class Cons extends SchemeProcedure{
 
     public EvaluationResult execute(SchemeObject[] args, Interpreter i, Environment e) {
-        assert args.length == 2;
+        i.assertArgCountEqual(this, args, 2);
         return new EvaluationResult(new SchemePair(args[0], args[1]), e);
 
     }

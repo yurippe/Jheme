@@ -14,7 +14,7 @@ public class Cdr extends SchemeProcedure{
 
     public EvaluationResult execute(SchemeObject[] args, Interpreter i, Environment e) {
         i.assertArgCountEqual(this, args, 1);
-        i.assertArgIsType(this, args[0], SchemePair.class);
+        i.assertIsType(this, args[0], SchemePair.class);
 
         SchemePair p = (SchemePair) args[0];
         return new EvaluationResult(p.getCdr(), e);
