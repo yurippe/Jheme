@@ -19,7 +19,7 @@ public class Lambda extends SchemeProcedure{
         if(args[0] instanceof SchemeExpression){
             //type 1 (args is a list of specific args):
             final SchemeExpression lambda_args = (SchemeExpression) args[0];
-            final SchemeExpression lambda_exp = (SchemeExpression) args[1];
+            final SchemeObject lambda_exp = args[1];
 
             for(SchemeObject o : lambda_args.list()){
                 if(!(o instanceof SchemeSymbol)){
@@ -56,9 +56,10 @@ public class Lambda extends SchemeProcedure{
         } else if (args[0] instanceof SchemeSymbol){
             //type 2 (args is 1 symbol which gets passed a list of args):
             final SchemeSymbol lambda_args = (SchemeSymbol) args[0];
-            final SchemeExpression lambda_exp = (SchemeExpression) args[1];
+            final SchemeObject lambda_exp = args[1];
 
             return new EvaluationResult(new SchemeProcedure() {
+
 
                 @Override
                 public EvaluationResult execute(SchemeObject[] args, Interpreter i, Environment e) {

@@ -93,6 +93,10 @@ public class Tokenizer {
 
         }
 
+        if(!(state == State.INITIAL)){
+            output.add(currentToken.toString());
+        }
+
         return output.toArray(new String[output.size()]);
 
     }

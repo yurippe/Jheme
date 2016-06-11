@@ -15,6 +15,12 @@ public class LambdaTests {
         assert a1.getValue() == 6;
         SchemeInteger a2 = (SchemeInteger) interpreter.eval("(define x (lambda (x) (lambda (x) (+ x x)))) ((x 10) 20)").getSchemeObject();
         assert a2.getValue() == 40;
+        SchemeInteger a3 = (SchemeInteger) interpreter.eval("(define y (lambda (x) x))(y 10)").getSchemeObject();
+        assert a3.getValue() == 10;
+        SchemeInteger a4 = (SchemeInteger) interpreter.eval("(define x (lambda x (+ (car x) (car (cdr x)))))(x 1 2)").getSchemeObject();
+        assert a4.getValue() == 3;
+        SchemeInteger a5 = (SchemeInteger) interpreter.eval("(x 9 1 #f 3)").getSchemeObject();
+        assert a5.getValue() == 10;
     }
 
 }
