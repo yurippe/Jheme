@@ -64,6 +64,7 @@ public class Environment {
         e.put("if", new If());
         e.put("and", new And());
         e.put("or", new Or());
+        e.put("not", new Not());
         e.put("define", new Define());
         e.put("lambda", new Lambda());
         e.put("let", new Let());
