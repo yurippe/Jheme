@@ -12,6 +12,7 @@ public class Define extends SchemeProcedure {
 
     @Override
     public EvaluationResult call(SchemeObject[] args, Interpreter i, Environment e) {
+        i.assertArgCountEqual(this, args, 2);
         SchemeSymbol name = (SchemeSymbol) args[0];
         SchemeObject value = i.eval(args[1], e).getSchemeObject();
         e.put(name.getValue(), value);

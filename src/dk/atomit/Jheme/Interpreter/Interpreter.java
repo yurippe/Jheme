@@ -74,7 +74,7 @@ public class Interpreter {
                     if(!(r.getSchemeObject() instanceof SchemeNoreturn)) {
                         System.out.println(r.getSchemeObject().getStringValue());
                     }
-                } catch (Exception e) {
+                } catch (RuntimeException e) {
                     System.out.println("--Scheme Exception Thrown--");
                     if(e.getMessage() == null){
                         System.out.println("Syntax error");

@@ -20,7 +20,7 @@ public class Test {
 
 
         Interpreter i = new Interpreter();
-        System.out.println("Jheme " + Interpreter.VERSION + " <by Kristian Gausel>\n");
+        System.out.println("Jheme <version " + Interpreter.VERSION + ">\n");
         i.repl(">> ");
     }
 
