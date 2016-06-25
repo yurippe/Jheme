@@ -14,10 +14,12 @@ import java.util.List;
  */
 public class Interpreter {
 
+    public static String VERSION = "0.03";
+
     private Parser parser = new Parser();
     private Environment environment = Environment.getStdEnvironment();
 
-    private boolean nextLiteral = false;
+    //private boolean nextLiteral = false;
 
     public EvaluationResult eval(SchemeObject o, Environment e){
         /* Shitty implementation of ', current solution is to fix it in the parser by replacing it with (quote <expr>)
@@ -58,15 +60,30 @@ public class Interpreter {
     }
 
     public void repl(){
+        repl("");
+    }
+    public void repl(String prompt){
         BufferedReader buffer = new BufferedReader(new InputStreamReader(System.in));
 
         while(true){
             try {
+                System.out.print(prompt);
                 String line = buffer.readLine();
-                EvaluationResult r = eval(line);
-                if(!(r.getSchemeObject() instanceof SchemeNoreturn)) {
-                    System.out.println(r.getSchemeObject().getStringValue());
+                try {
+                    EvaluationResult r = eval(line);
+                    if(!(r.getSchemeObject() instanceof SchemeNoreturn)) {
+                        System.out.println(r.getSchemeObject().getStringValue());
+                    }
+                } catch (Exception e) {
+                    System.out.println("--Scheme Exception Thrown--");
+                    if(e.getMessage() == null){
+                        System.out.println("Syntax error");
+                    } else {
+                        System.out.println(e.getMessage());
+                    }
+                    System.out.println("---------------------------");
                 }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
