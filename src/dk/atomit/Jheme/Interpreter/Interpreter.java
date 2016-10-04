@@ -16,8 +16,8 @@ public class Interpreter {
 
     public static String VERSION = "0.03";
 
-    private Parser parser = new Parser();
-    private Environment environment = Environment.getStdEnvironment();
+    protected Parser parser = new Parser();
+    protected Environment environment = Environment.getStdEnvironment();
 
     //private boolean nextLiteral = false;
 
