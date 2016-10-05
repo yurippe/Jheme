@@ -88,6 +88,7 @@ public class Environment {
         e.put("pair?", new IsPair());
         e.put("printf", new PrintF());
         e.put("begin", new Begin());
+        e.put("stringappend", new StringAppend());
         return e;
 
     }
